@@ -12,18 +12,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
-  /* Moody theme colours */
-  /* Light text on dark backgrounds for readability */
-  --primary-color: #e6e3de;
-  /* Warm accent retains the copper tone but slightly deeper */
-  --accent-color: #a67858;
-  /* Light card background for product tiles and detail panels. This off‑white
-     colour gives each piece a lit pedestal feel against the darker page. */
-  --card-bg: #f7f5f2;
-  /* Section background now a dark charcoal */
-  --light-bg: #1a1a1a;
-  /* Body background is very dark to set a moody tone */
-  --body-bg: #121212;
+  /* Moody theme colours – slightly brightened for a more approachable gallery feel */
+  /* Primary text colour for high contrast on dark backgrounds */
+  --primary-color: #f0ece7;
+  /* Accent colour for buttons and highlights; a warmer copper hue */
+  --accent-color: #c08463;
+  /* Card background for product tiles and detail panels.  A brighter off‑white
+     gives each artwork its own lit pedestal, like in a high‑end gallery. */
+  --card-bg: #f9f7f5;
+  /* Section background for light panels (e.g. about teaser) slightly brighter */
+  --light-bg: #1c1c1c;
+  /* Body background is dark but not pitch black for better readability */
+  --body-bg: #151515;
 }
 
 /* Global resets */
@@ -266,6 +266,57 @@ img {
   font-size: 0.9rem;
   margin: 0 1rem 1rem;
   color: var(--accent-color);
+}
+
+/* Size selection list on product page */
+.size-list {
+  margin: 1rem 0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  overflow: hidden;
+  width: fit-content;
+  background-color: var(--body-bg);
+}
+.size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.2s ease;
+}
+.size-row:last-child {
+  border-bottom: none;
+}
+.size-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.size-row.active {
+  border-left: 4px solid var(--accent-color);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.size-quality {
+  display: flex;
+  margin-right: 0.5rem;
+}
+.size-quality .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #666;
+  margin-right: 3px;
+}
+.size-quality .dot.active {
+  background-color: var(--accent-color);
+}
+.size-name,
+.size-price {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+.size-price {
+  font-weight: 500;
 }
 
 .centered {

@@ -113,8 +113,10 @@
           <p class="product-detail-description"></p>
           <!-- Display original resolution and selected size. Populated via JavaScript. -->
           <p id="resolution-info" style="font-size:0.9rem; color: var(--primary-color); margin-bottom:0.5rem;"></p>
-          <label for="size-select">Select Size:</label>
-          <select id="size-select" class="size-select"></select>
+          <!-- Hidden select for compatibility (actual options rendered in the custom size list below) -->
+          <select id="size-select" class="size-select" style="display:none;"></select>
+          <!-- Custom size list will be populated via JavaScript to emulate WhiteWall's pricing grid -->
+          <div id="size-list" class="size-list"></div>
           <!-- Resolution quality indicator; dots and label will be updated via JavaScript -->
           <div class="quality-indicator" style="display:none;">
             <div class="quality-dots">

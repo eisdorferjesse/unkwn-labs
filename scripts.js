@@ -195,6 +195,93 @@ function renderProductDetail() {
       option.textContent = `${size} – $${product.prices[size]}`;
       sizeSelect.appendChild(option);
     });
+    // Set default selected value to the first size for consistency
+    if (product.sizes.length > 0) {
+      sizeSelect.value = product.sizes[0];
+    }
+  }
+
+  // Populate custom size list for a more interactive selection experience. This mimics
+  // WhiteWall's size grid with quality dots and pricing. Each row shows
+  // the resolution quality (based on pixels-per-inch), the size label and the
+  // corresponding price. Clicking a row updates the hidden select and
+  // triggers the quality indicator and resolution info updates.
+  const sizeListEl = container.querySelector('#size-list');
+  if (sizeListEl) {
+    // Clear any existing rows
+    sizeListEl.innerHTML = '';
+    // Helper to compute quality rating (1–5) for a given size
+    function computeRating(sizeStr) {
+      if (!sizeStr || !sizeStr.includes('×')) return 0;
+      const parts = sizeStr.split('×');
+      const widthIn = parseFloat(parts[0]);
+      const heightIn = parseFloat(parts[1]);
+      const [pxW, pxH] = product.resolution;
+      const ppiW = pxW / widthIn;
+      const ppiH = pxH / heightIn;
+      const ppi = Math.min(ppiW, ppiH);
+      if (ppi >= 200) return 5;
+      if (ppi >= 150) return 4;
+      if (ppi >= 100) return 3;
+      if (ppi >= 75) return 2;
+      return 1;
+    }
+    product.sizes.forEach((size, index) => {
+      const rating = computeRating(size);
+      // Create row container
+      const row = document.createElement('div');
+      row.className = 'size-row';
+      row.dataset.size = size;
+      // Quality dots
+      const qualityEl = document.createElement('div');
+      qualityEl.className = 'size-quality';
+      for (let i = 0; i < 5; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        if (i < rating) dot.classList.add('active');
+        qualityEl.appendChild(dot);
+      }
+      // Size label
+      const nameEl = document.createElement('span');
+      nameEl.className = 'size-name';
+      nameEl.textContent = size + '″';
+      // Price label
+      const priceEl = document.createElement('span');
+      priceEl.className = 'size-price';
+      priceEl.textContent = '$' + product.prices[size].toFixed(2);
+      // Assemble row
+      row.appendChild(qualityEl);
+      row.appendChild(nameEl);
+      row.appendChild(priceEl);
+      // Click handler to select this size
+      row.addEventListener('click', () => {
+        // Update select value
+        if (sizeSelect) {
+          sizeSelect.value = size;
+        }
+        // Highlight the selected row
+        sizeListEl.querySelectorAll('.size-row').forEach((r) => r.classList.remove('active'));
+        row.classList.add('active');
+        // Trigger change event to update resolution info and quality indicator
+        if (sizeSelect) {
+          const event = new Event('change');
+          sizeSelect.dispatchEvent(event);
+        }
+      });
+      sizeListEl.appendChild(row);
+    });
+    // Initially highlight the first size as default selected
+    if (sizeListEl.firstChild) {
+      sizeListEl.firstChild.classList.add('active');
+    }
+  }
+
+  // After building the size list and setting default size, trigger a change event on
+  // the hidden select to ensure the resolution info and quality indicator
+  // initialise with the correct values. Without this explicit dispatch the
+  // indicator may not update until the user interacts.
+  if (sizeSelect) {
+    sizeSelect.dispatchEvent(new Event('change'));
   }
 
   // Populate resolution and selected size information
