@@ -318,6 +318,91 @@ img {
   color: #777777;
 }
 
+/* Social icon styling in the footer bottom */
+.footer-social a {
+  /* ensure the Instagram icon contrasts against the dark background */
+  color: #eeeeee;
+  margin-left: 0.5rem;
+  text-decoration: none;
+}
+.footer-social a:hover {
+  color: var(--accent-color);
+}
+
+/* --------------------------------------------------------------------------
+ * Room view overlay styles
+ *
+ * These styles support the interactive "View in Room" feature on the product
+ * detail page. The overlay darkens the screen, displays a background room
+ * image and positions the selected print as a draggable element so visitors
+ * can visualise how the artwork looks on a wall. The close button and
+ * instructions ensure a good user experience.
+ */
+.room-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.room-container {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  height: 80%;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #222;
+}
+.room-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.room-print {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  cursor: move;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+.room-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+.room-close:hover {
+  color: var(--accent-color);
+}
+.room-instructions {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 0.85rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.4rem 0.8rem;
+  border-radius: 3px;
+  z-index: 2;
+}
+
 /* Cart table styles */
 .cart-table {
   width: 100%;
