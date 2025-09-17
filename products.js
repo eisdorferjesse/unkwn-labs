@@ -327,4 +327,102 @@ const products = [
       '35×52.4': 1066.95,
     },
   },
+
+  // Aerial crossroads print juxtaposing human engineering and nature
+  {
+    id: 15,
+    name: 'Crossroads Over Water',
+    description:
+      'An aerial perspective capturing the geometric patterns of highways over tranquil ponds and lush greenery. This piece showcases the interplay between human engineering and nature.',
+    image: 'assets/images/product15.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    // Original resolution (width × height) in pixels
+    resolution: [2048, 1152],
+    // Pricing follows WhiteWall plus $150
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
+
+  // Serene sea turtle drifting through crystalline waters
+  {
+    id: 16,
+    name: 'Sea Turtle Drift',
+    description:
+      'A serene capture of a sea turtle gliding gracefully through crystalline waters, invoking a sense of peace and freedom.',
+    image: 'assets/images/product16.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    resolution: [1537, 2048],
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
+
+  // Iconic Porsche Carrera RS captured in a rich magenta hue
+  {
+    id: 17,
+    name: 'Carrera RS Elegance',
+    description:
+      'A close‑up of the iconic Porsche Carrera RS in a striking magenta hue. Sleek curves and gleaming paint reflect pure automotive artistry.',
+    image: 'assets/images/product17.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    resolution: [2048, 1365],
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
 ];

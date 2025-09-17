@@ -198,16 +198,22 @@ function initQualityIndicator(product) {
     let rating;
     let label;
     // Printing quality thresholds: see updateInfo for documentation.
-    if (ppi >= 300) {
+    // Adjusted print quality thresholds to better reflect real‑world
+    // viewing experience. At very high PPI (>250) prints are
+    // exceptionally sharp. Between 140–249 PPI they remain very
+    // detailed. Prints between 100–139 PPI are still quite good,
+    // while those between 50–99 PPI are acceptable but softer. Below
+    // 50 PPI the print will appear noticeably pixelated.
+    if (ppi >= 250) {
       rating = 5;
       label = 'Excellent';
-    } else if (ppi >= 200) {
+    } else if (ppi >= 140) {
       rating = 4;
       label = 'Very good';
-    } else if (ppi >= 150) {
+    } else if (ppi >= 100) {
       rating = 3;
       label = 'Good';
-    } else if (ppi >= 100) {
+    } else if (ppi >= 50) {
       rating = 2;
       label = 'Fair';
     } else {
