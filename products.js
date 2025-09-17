@@ -227,4 +227,104 @@ const products = [
       '35×52.4': 1066.95,
     },
   },
+
+  // New aerial cityscape at sunset with sweeping overpasses
+  {
+    id: 12,
+    name: 'Sunset Interchange',
+    description:
+      'An aerial view of a sweeping highway interchange at sunset. The golden light bathes the roads and waterways, capturing the grandeur of modern infrastructure against a serene horizon.',
+    image: 'assets/images/product12.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    // Original resolution (width × height) in pixels
+    resolution: [2048, 1152],
+    // Pricing follows WhiteWall plus $150
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
+
+  // Portrait of a custom hot rod and supercar in an urban setting
+  {
+    id: 13,
+    name: 'Urban Machines',
+    description:
+      'A striking portrait of a vintage hot rod alongside a modern supercar beneath elevated rail tracks. The juxtaposition of old‑school craftsmanship and contemporary design speaks to the evolution of automotive art.',
+    image: 'assets/images/product13.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    // Original resolution (width × height) in pixels
+    resolution: [1080, 1440],
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
+
+  // Evening silhouette with heart‑shaped leaves
+  {
+    id: 14,
+    name: 'Heartfelt Sunset',
+    description:
+      'Delicate vines with heart‑shaped leaves form a graceful silhouette against a dusky sunset sky. This contemplative scene evokes romance and tranquility.',
+    image: 'assets/images/product14.jpg',
+    sizes: [
+      '4×6',
+      '8×12',
+      '12×18',
+      '16×23.9',
+      '20×29.9',
+      '24×35.9',
+      '28×41.9',
+      '31×46.4',
+      '35×52.4',
+    ],
+    // Original resolution (width × height) in pixels
+    resolution: [1616, 1080],
+    prices: {
+      '4×6': 185.95,
+      '8×12': 234.95,
+      '12×18': 329.95,
+      '16×23.9': 381.95,
+      '20×29.9': 470.95,
+      '24×35.9': 587.95,
+      '28×41.9': 785.95,
+      '31×46.4': 874.95,
+      '35×52.4': 1066.95,
+    },
+  },
 ];

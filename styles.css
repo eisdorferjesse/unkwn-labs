@@ -631,6 +631,36 @@ img {
   font-weight: bold;
 }
 
+/* Checkout form styles */
+.checkout-form {
+  max-width: 650px;
+  margin: 0 auto;
+}
+.checkout-form .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.checkout-form .form-group {
+  flex: 1 1 45%;
+  min-width: 200px;
+  margin-bottom: 1rem;
+}
+.checkout-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+.checkout-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background-color: #fafafa;
+  color: var(--text-color);
+}
+
 .cart-actions {
   display: flex;
   justify-content: space-between;

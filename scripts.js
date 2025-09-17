@@ -82,6 +82,88 @@ function changeQuantity(index, newQty) {
   }
 }
 
+// Clear the entire cart. Useful after completing a purchase.
+function clearCart() {
+  saveCart([]);
+  updateCartCount();
+}
+
+// Render the checkout page. Shows a summary of the cart and a simple
+// checkout form for collecting buyer details. Called on checkout.html.
+function renderCheckout() {
+  const container = document.getElementById('checkout-container');
+  if (!container) return;
+  const cart = loadCart();
+  if (cart.length === 0) {
+    container.innerHTML = '<p>Your cart is empty.</p>';
+    return;
+  }
+  // Build summary table
+  let tableHtml =
+    '<table class="cart-table"><thead><tr><th>Print</th><th>Size</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody>';
+  let grandTotal = 0;
+  cart.forEach((item) => {
+    const product = products.find((p) => p.id === item.productId);
+    if (!product) return;
+    const price = product.prices[item.size];
+    const total = price * item.quantity;
+    grandTotal += total;
+    tableHtml += `<tr><td>${product.name}</td><td>${item.size}</td><td>${item.quantity}</td>` +
+                 `<td>$${price.toFixed(2)}</td><td>$${total.toFixed(2)}</td></tr>`;
+  });
+  tableHtml +=
+    `</tbody><tfoot><tr><td colspan="4" class="grand-total-label">Grand Total</td><td>$${grandTotal.toFixed(2)}</td></tr></tfoot></table>`;
+  // Build form markup
+  const formHtml = `
+    <h2>Checkout Details</h2>
+    <form id="checkout-form" class="checkout-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" required />
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" id="state" required />
+        </div>
+        <div class="form-group">
+          <label for="zip">Postal Code</label>
+          <input type="text" id="zip" required />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+  `;
+  container.innerHTML = tableHtml + formHtml;
+  // Handle submission
+  const form = document.getElementById('checkout-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you! Your order has been received.');
+      clearCart();
+      // Redirect to home or shop after order
+      window.location.href = 'index.html';
+    });
+  }
+}
+
 // Compute and display the resolution quality for a selected product and size.
 // This function assumes the existence of a `.quality-indicator` element in
 // the product detail page, which contains child elements representing
@@ -101,25 +183,21 @@ function initQualityIndicator(product) {
   // Helper to compute PPI and return rating + label
   function computeQuality(sizeStr) {
     if (!sizeStr || !sizeStr.includes('×')) {
-      return { rating: 0, label: '' };
+      return { rating: 0, label: '', ppi: 0 };
     }
     const parts = sizeStr.split('×');
     const widthIn = parseFloat(parts[0]);
     const heightIn = parseFloat(parts[1]);
     const [pxW, pxH] = product.resolution;
+    // Compute pixels per inch in each dimension and use the limiting (minimum)
+    // dimension as the effective pixel density. This mirrors how print labs
+    // determine sharpness: the lower PPI axis dictates the perceived detail.
     const ppiW = pxW / widthIn;
     const ppiH = pxH / heightIn;
     const ppi = Math.min(ppiW, ppiH);
     let rating;
     let label;
-    // Use more precise print quality thresholds based on common
-    // photographic printing guidelines. At 300 PPI or higher, the
-    // print will appear tack sharp even at close viewing distances. At
-    // 200–299 PPI the quality remains very good for fine art. Between
-    // 150–199 PPI, detail softens but remains acceptable for most
-    // decor; 100–149 PPI is fair and suited for larger viewing
-    // distances; anything below 100 PPI will produce noticeable
-    // softness and pixelation.
+    // Printing quality thresholds: see updateInfo for documentation.
     if (ppi >= 300) {
       rating = 5;
       label = 'Excellent';
@@ -136,14 +214,14 @@ function initQualityIndicator(product) {
       rating = 1;
       label = 'Poor';
     }
-    return { rating, label };
+    return { rating, label, ppi };
   }
   // Update the DOM based on current selection
   function update() {
     const sizeSelect = document.getElementById('size-select');
     if (!sizeSelect) return;
     const selected = sizeSelect.value;
-    const { rating, label } = computeQuality(selected);
+    const { rating, label, ppi } = computeQuality(selected);
     dots.forEach((dot, index) => {
       if (index < rating) {
         dot.classList.add('active');
@@ -152,8 +230,9 @@ function initQualityIndicator(product) {
       }
     });
     if (labelEl) {
-      // Prefix the quality label with a descriptor for clarity
-      labelEl.textContent = 'Resolution: ' + label;
+      // Prefix the quality label and include the computed PPI for transparency
+      const ppiRounded = Math.round(ppi);
+      labelEl.textContent = `Resolution: ${label} (${ppiRounded} PPI)`;
     }
   }
   // Bind change event
@@ -301,8 +380,23 @@ function renderProductDetail() {
       const selectedSize = sizeSelect ? sizeSelect.value : '';
       const [pxW, pxH] = product.resolution || [];
       const originalText = pxW && pxH ? `Original resolution: ${pxW} × ${pxH} px` : '';
-      const sizeText = selectedSize ? ` | Selected size: ${selectedSize} in` : '';
-      resInfoEl.textContent = `${originalText}${sizeText}`;
+      let sizeText = '';
+      let ppiText = '';
+      if (selectedSize && selectedSize.includes('×')) {
+        sizeText = ` | Selected size: ${selectedSize} in`;
+        // Compute PPI for the selected size using the same method as the quality indicator
+        const parts = selectedSize.split('×');
+        const widthIn = parseFloat(parts[0]);
+        const heightIn = parseFloat(parts[1]);
+        if (pxW && pxH && widthIn && heightIn) {
+          const ppiW = pxW / widthIn;
+          const ppiH = pxH / heightIn;
+          const ppi = Math.min(ppiW, ppiH);
+          const ppiRounded = Math.round(ppi);
+          ppiText = ` | Pixel density: ${ppiRounded} PPI`;
+        }
+      }
+      resInfoEl.textContent = `${originalText}${sizeText}${ppiText}`;
     };
     // run immediately and whenever the size changes
     updateInfo();
@@ -381,5 +475,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // If on the cart page, render cart
   if (document.getElementById('cart-container')) {
     renderCart();
+  }
+
+  // If on the checkout page, render checkout summary and form
+  if (document.getElementById('checkout-container')) {
+    renderCheckout();
   }
 });
