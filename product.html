@@ -234,11 +234,25 @@
             // Determine selected size and adjust print dimensions
             const sizeSelect = document.getElementById('size-select');
             let selected = sizeSelect ? sizeSelect.value : '';
-            // The option value is just the size (e.g. "12×16") for clarity
             if (selected.includes('×')) {
               const dims = parseSize(selected);
-              const widthPx = inchesToPixels(dims.width);
-              const heightPx = inchesToPixels(dims.height);
+              let widthIn = dims.width;
+              let heightIn = dims.height;
+              // Detect the orientation of the actual photograph. We use
+              // naturalWidth/naturalHeight of the product image to decide
+              // whether it is landscape or portrait. If the selected
+              // dimensions do not match the photo orientation, swap them
+              // so the print is displayed correctly in the room.
+              const isLandscape = productImage.naturalWidth >= productImage.naturalHeight;
+              if (isLandscape && widthIn < heightIn) {
+                // Photo is landscape but size is portrait – swap
+                [widthIn, heightIn] = [heightIn, widthIn];
+              } else if (!isLandscape && widthIn > heightIn) {
+                // Photo is portrait but size is landscape – swap
+                [widthIn, heightIn] = [heightIn, widthIn];
+              }
+              const widthPx = inchesToPixels(widthIn);
+              const heightPx = inchesToPixels(heightIn);
               roomPrint.style.width = widthPx + 'px';
               roomPrint.style.height = heightPx + 'px';
             } else {

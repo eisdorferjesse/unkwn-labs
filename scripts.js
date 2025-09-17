@@ -112,16 +112,24 @@ function initQualityIndicator(product) {
     const ppi = Math.min(ppiW, ppiH);
     let rating;
     let label;
-    if (ppi >= 200) {
+    // Use more precise print quality thresholds based on common
+    // photographic printing guidelines. At 300 PPI or higher, the
+    // print will appear tack sharp even at close viewing distances. At
+    // 200–299 PPI the quality remains very good for fine art. Between
+    // 150–199 PPI, detail softens but remains acceptable for most
+    // decor; 100–149 PPI is fair and suited for larger viewing
+    // distances; anything below 100 PPI will produce noticeable
+    // softness and pixelation.
+    if (ppi >= 300) {
       rating = 5;
       label = 'Excellent';
-    } else if (ppi >= 150) {
+    } else if (ppi >= 200) {
       rating = 4;
       label = 'Very good';
-    } else if (ppi >= 100) {
+    } else if (ppi >= 150) {
       rating = 3;
       label = 'Good';
-    } else if (ppi >= 75) {
+    } else if (ppi >= 100) {
       rating = 2;
       label = 'Fair';
     } else {
@@ -220,10 +228,11 @@ function renderProductDetail() {
       const ppiW = pxW / widthIn;
       const ppiH = pxH / heightIn;
       const ppi = Math.min(ppiW, ppiH);
-      if (ppi >= 200) return 5;
-      if (ppi >= 150) return 4;
-      if (ppi >= 100) return 3;
-      if (ppi >= 75) return 2;
+      // Use the same thresholds as the quality indicator for consistency
+      if (ppi >= 300) return 5;
+      if (ppi >= 200) return 4;
+      if (ppi >= 150) return 3;
+      if (ppi >= 100) return 2;
       return 1;
     }
     product.sizes.forEach((size, index) => {
