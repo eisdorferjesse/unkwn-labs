@@ -333,9 +333,9 @@ img {
 
 /* Adjust the inline SVG size and colour for the Instagram icon */
 .footer-social svg {
-  width: 2rem;
-  height: 2rem;
-  /* Use the accent colour for the icon so it pops against the dark footer */
+  /* Increase the size of the Instagram icon and use the accent colour */
+  width: 2.5rem;
+  height: 2.5rem;
   fill: var(--accent-color);
   vertical-align: middle;
 }
