@@ -17,6 +17,9 @@
   --primary-color: #e6e3de;
   /* Warm accent retains the copper tone but slightly deeper */
   --accent-color: #a67858;
+  /* Light card background for product tiles and detail panels. This off‑white
+     colour gives each piece a lit pedestal feel against the darker page. */
+  --card-bg: #f7f5f2;
   /* Section background now a dark charcoal */
   --light-bg: #1a1a1a;
   /* Body background is very dark to set a moody tone */
@@ -231,16 +234,19 @@ img {
 }
 
 .product-card {
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* Use a lighter card background so prints feel illuminated like in a
+     gallery. Increased border radius softens the corners for a more
+     luxurious card shape. */
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .product-card img {
@@ -252,7 +258,8 @@ img {
 .product-name {
   font-size: 1rem;
   margin: 0.5rem 1rem;
-  color: var(--primary-color);
+  /* Darker text on the light card to improve readability */
+  color: #2c2c2c;
 }
 
 .product-price {
@@ -599,4 +606,15 @@ img {
   .product-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
+}
+
+/* Instagram icon styling */
+.instagram-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  vertical-align: middle;
+  /* Provide a slight tint to harmonize with the palette */
+  filter: brightness(1.1);
 }
