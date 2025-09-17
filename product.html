@@ -111,12 +111,8 @@
         <div class="product-detail-info">
           <h1 class="product-detail-name"></h1>
           <p class="product-detail-description"></p>
-          <!-- Key features emphasising gallery quality, thickness options and custom sizes -->
-          <ul class="product-features">
-            <li><i class="fas fa-check-circle"></i>Luminous colours & depth for a gallery finish</li>
-            <li><i class="fas fa-check-circle"></i>Choice of 2 mm, 4 mm or 6 mm acrylic thickness</li>
-            <li><i class="fas fa-check-circle"></i>Custom sizes with ready‑to‑hang hardware</li>
-          </ul>
+          <!-- Display original resolution and selected size. Populated via JavaScript. -->
+          <p id="resolution-info" style="font-size:0.9rem; color: var(--primary-color); margin-bottom:0.5rem;"></p>
           <label for="size-select">Select Size:</label>
           <select id="size-select" class="size-select"></select>
           <!-- Resolution quality indicator; dots and label will be updated via JavaScript -->

@@ -18,10 +18,13 @@ const products = [
       'A captivating photograph of a shaggy Highland cattle standing amid lush greenery. The rich texture of the fur and the verdant background bring rustic charm and warmth to your wall.',
     image: 'assets/images/product5.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    // Resolution in pixels (width, height) for computing quality
+    resolution: [1365, 2048],
+    // Updated prices based on WhiteWall pricing plus $150
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
   {
@@ -31,10 +34,11 @@ const products = [
       'A dramatic close-up portrait of a longhorn cattle framed between trees. Its serene gaze and natural tones lend a touch of pastoral elegance to modern interiors.',
     image: 'assets/images/product6.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [1365, 2048],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
 
@@ -46,10 +50,11 @@ const products = [
       'A breathtaking aerial view of a city at dusk captured from above. The vibrant blend of teal sky and warm sunset hues evokes a serene and atmospheric mood.',
     image: 'assets/images/product7.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [2048, 1536],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
   {
@@ -59,10 +64,11 @@ const products = [
       'An architectural photograph featuring the stately elegance of a historic brick building framed by lush green foliage and a clear blue sky. A perfect piece for lovers of cityscapes and timeless design.',
     image: 'assets/images/product8.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [1365, 2048],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
 
@@ -74,10 +80,11 @@ const products = [
       'A heartwarming scene of two woolly companions grazing peacefully in a lush green pasture. This tender moment captures the simple beauty of rural life.',
     image: 'assets/images/product9.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [2048, 1365],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
   {
@@ -87,10 +94,11 @@ const products = [
       'A charming red bunkhouse nestled among rolling hills and verdant trees. This rustic print evokes the coziness and charm of rural farm life.',
     image: 'assets/images/product10.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [2048, 1365],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
   {
@@ -100,10 +108,11 @@ const products = [
       'A vibrant golden sunflower stands tall amidst lush green foliage, its bright petals bringing cheer and warmth to any space.',
     image: 'assets/images/product11.jpg',
     sizes: ['12×16', '18×24', '24×36'],
+    resolution: [1365, 2048],
     prices: {
-      '12×16': 79,
-      '18×24': 129,
-      '24×36': 179,
+      '12×16': 329.95,
+      '18×24': 381.95,
+      '24×36': 587.95,
     },
   },
 ];

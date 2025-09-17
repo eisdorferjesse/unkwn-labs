@@ -196,6 +196,24 @@ function renderProductDetail() {
       sizeSelect.appendChild(option);
     });
   }
+
+  // Populate resolution and selected size information
+  const resInfoEl = container.querySelector('#resolution-info');
+  if (resInfoEl) {
+    // helper to update the info text
+    const updateInfo = () => {
+      const selectedSize = sizeSelect ? sizeSelect.value : '';
+      const [pxW, pxH] = product.resolution || [];
+      const originalText = pxW && pxH ? `Original resolution: ${pxW} × ${pxH} px` : '';
+      const sizeText = selectedSize ? ` | Selected size: ${selectedSize} in` : '';
+      resInfoEl.textContent = `${originalText}${sizeText}`;
+    };
+    // run immediately and whenever the size changes
+    updateInfo();
+    if (sizeSelect) {
+      sizeSelect.addEventListener('change', updateInfo);
+    }
+  }
   // Initialise the resolution quality indicator for this product
   initQualityIndicator(product);
   // Add event listener for add to cart button
