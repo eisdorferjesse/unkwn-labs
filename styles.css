@@ -113,6 +113,8 @@ img {
   justify-content: center;
   text-align: center;
   color: #ffffff;
+  /* allow hero navigation buttons to be positioned inside hero */
+  overflow: hidden;
 }
 
 .hero-overlay {
@@ -327,6 +329,39 @@ img {
 }
 .footer-social a:hover {
   color: var(--accent-color);
+}
+
+/* Adjust the inline SVG size and colour for the Instagram icon */
+.footer-social svg {
+  width: 2rem;
+  height: 2rem;
+  /* Use the accent colour for the icon so it pops against the dark footer */
+  fill: var(--accent-color);
+  vertical-align: middle;
+}
+
+/* Hero slideshow navigation buttons */
+.hero-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: none;
+  font-size: 2rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s ease;
+}
+.hero-nav:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+.hero-prev {
+  left: 10px;
+}
+.hero-next {
+  right: 10px;
 }
 
 /* --------------------------------------------------------------------------

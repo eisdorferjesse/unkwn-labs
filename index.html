@@ -38,18 +38,83 @@
       </div>
     </header>
 
-    <!-- Hero section -->
-    <section class="hero" style="background-image: url('assets/images/hero.png');">
+    <!-- Hero section with dynamic slideshow -->
+    <!--
+      The hero section cycles through several of your photographs to immediately
+      showcase the breadth of your work. The background image is updated via
+      JavaScript, so remove any inline background styles here and assign
+      an id to target from the script.
+    -->
+    <section class="hero" id="hero-section">
       <div class="hero-overlay"></div>
       <div class="hero-content container">
         <h1 class="hero-title">Fine Art Acrylic Prints</h1>
         <p class="hero-subtitle">
-          Discover gallery‑quality photo prints crafted with luminous depth and
-          brilliance.
+          Explore and purchase limited‑edition acrylic prints from my seven‑year
+          photography journey. Each piece is crafted with luminous depth and brilliance to
+          transform your space.
         </p>
-        <a href="shop.html" class="btn btn-primary">Shop Now</a>
+        <a href="shop.html" class="btn btn-primary">Browse Prints</a>
       </div>
+      <!-- Navigation arrows for the hero slideshow -->
+      <button class="hero-nav hero-prev" aria-label="Previous image">‹</button>
+      <button class="hero-nav hero-next" aria-label="Next image">›</button>
     </section>
+
+    <script>
+      // Hero slideshow functionality
+      document.addEventListener('DOMContentLoaded', function () {
+        const heroSection = document.getElementById('hero-section');
+        if (!heroSection) return;
+        // Array of images to cycle through (choose from your photo prints)
+        const heroImages = [
+          'assets/images/product5.jpg',
+          'assets/images/product6.jpg',
+          'assets/images/product7.jpg',
+          'assets/images/product8.jpg',
+          'assets/images/product9.jpg',
+          'assets/images/product10.jpg',
+          'assets/images/product11.jpg',
+        ];
+        let currentIndex = 0;
+        // capture navigation buttons
+        const prevBtn = heroSection.querySelector('.hero-prev');
+        const nextBtn = heroSection.querySelector('.hero-next');
+        // Function to update the hero background
+        function updateHero() {
+          const img = heroImages[currentIndex];
+          heroSection.style.backgroundImage = `url('${img}')`;
+        }
+        // Functions to go to next and previous slides
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % heroImages.length;
+          updateHero();
+        }
+        function prevSlide() {
+          currentIndex = (currentIndex - 1 + heroImages.length) % heroImages.length;
+          updateHero();
+        }
+        // Immediately set the first image
+        updateHero();
+        // Automatically cycle through images every 6 seconds
+        let heroInterval = setInterval(nextSlide, 6000);
+        // Add click handlers for manual navigation
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            prevSlide();
+            clearInterval(heroInterval);
+            heroInterval = setInterval(nextSlide, 6000);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            nextSlide();
+            clearInterval(heroInterval);
+            heroInterval = setInterval(nextSlide, 6000);
+          });
+        }
+      });
+    </script>
 
     <!-- Features section -->
     <section class="features container">
@@ -186,8 +251,9 @@
         ©2025 UNKWN LABS. All rights reserved.
           <span class="footer-social">
             <a href="https://www.instagram.com/unkwnphoto" target="_blank" aria-label="Instagram" style="display:inline-block; line-height:1; margin-left:0.5rem;">
-              <!-- Inline SVG for the Instagram icon to avoid loading external icon fonts -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 448 512" fill="#ffffff">
+              <!-- Inline SVG for the Instagram icon to avoid loading external icon fonts.
+                   Width, height and colour are controlled via CSS -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9 114.9-51.3 114.9-114.9S287.7 141 224.1 141zm0 188.6c-40.7 0-73.8-33.1-73.8-73.8s33.1-73.8 73.8-73.8 73.8 33.1 73.8 73.8-33.1 73.8-73.8 73.8zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27 0-14.9 12.1-27 27-27 14.9 0 27 12.1 27 27zm76.1 27.2c-1.7-35.7-9.9-67.4-36.1-92.7S389 47.7 353.3 46c-35.8-1.7-142.9-1.7-178.7 0-35.7 1.7-67.4 9.9-92.7 36.1S47.7 123 46 158.7c-1.7 35.8-1.7 142.9 0 178.7 1.7 35.7 9.9 67.4 36.1 92.7s57 34.4 92.7 36.1c35.8 1.7 142.9 1.7 178.7 0 35.7-1.7 67.4-9.9 92.7-36.1 26.2-26.2 34.4-57 36.1-92.7 1.7-35.8 1.7-142.9 0-178.7z"/>
               </svg>
             </a>
