@@ -144,7 +144,8 @@ function initQualityIndicator(product) {
       }
     });
     if (labelEl) {
-      labelEl.textContent = label;
+      // Prefix the quality label with a descriptor for clarity
+      labelEl.textContent = 'Resolution: ' + label;
     }
   }
   // Bind change event

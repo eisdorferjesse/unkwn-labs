@@ -7,6 +7,10 @@
  * ensuring the shopping experience feels refined and deliberate.
  */
 
+/* Import a professional, modern font from Google Fonts. Inter offers a clean
+   and highly legible appearance that elevates the overall presentation. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 :root {
   /* Moody theme colours */
   /* Light text on dark backgrounds for readability */
@@ -27,7 +31,8 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  /* Use the imported Inter font for a more refined look */
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   background-color: var(--body-bg);
   color: var(--primary-color);
   line-height: 1.6;
@@ -145,6 +150,7 @@ img {
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 3px;
+  font-weight: 700;
 }
 
 .hero-subtitle {

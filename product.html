@@ -37,13 +37,33 @@
         gap: 1rem;
       }
       .product-detail-name {
-        font-size: 2rem;
+        font-size: 2.2rem;
         margin-bottom: 0.5rem;
+        font-weight: 600;
       }
       .product-detail-description {
         font-size: 1rem;
         line-height: 1.6;
         max-width: 600px;
+      }
+
+      /* Feature list styling to communicate professional print qualities */
+      .product-features {
+        list-style: none;
+        padding-left: 0;
+        margin: 0 0 1rem 0;
+      }
+      .product-features li {
+        display: flex;
+        align-items: flex-start;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+      }
+      .product-features li i {
+        color: var(--accent-color);
+        margin-right: 0.4rem;
+        font-size: 1rem;
+        line-height: 1.2;
       }
       .size-select {
         padding: 0.5rem;
@@ -91,6 +111,12 @@
         <div class="product-detail-info">
           <h1 class="product-detail-name"></h1>
           <p class="product-detail-description"></p>
+          <!-- Key features emphasising gallery quality, thickness options and custom sizes -->
+          <ul class="product-features">
+            <li><i class="fas fa-check-circle"></i>Luminous colours & depth for a gallery finish</li>
+            <li><i class="fas fa-check-circle"></i>Choice of 2 mm, 4 mm or 6 mm acrylic thickness</li>
+            <li><i class="fas fa-check-circle"></i>Custom sizes with ready‑to‑hang hardware</li>
+          </ul>
           <label for="size-select">Select Size:</label>
           <select id="size-select" class="size-select"></select>
           <!-- Resolution quality indicator; dots and label will be updated via JavaScript -->
