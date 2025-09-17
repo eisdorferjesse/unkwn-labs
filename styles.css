@@ -8,10 +8,15 @@
  */
 
 :root {
-  --primary-color: #333333;
-  --accent-color: #b38b6d;
-  --light-bg: #f8f6f4;
-  --body-bg: #ffffff;
+  /* Moody theme colours */
+  /* Light text on dark backgrounds for readability */
+  --primary-color: #e6e3de;
+  /* Warm accent retains the copper tone but slightly deeper */
+  --accent-color: #a67858;
+  /* Section background now a dark charcoal */
+  --light-bg: #1a1a1a;
+  /* Body background is very dark to set a moody tone */
+  --body-bg: #121212;
 }
 
 /* Global resets */
@@ -47,8 +52,9 @@ img {
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Dark translucent header complements the moody palette */
+  background-color: rgba(18, 18, 18, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   z-index: 100;
 }
 
@@ -107,7 +113,8 @@ img {
   position: relative;
   height: 80vh;
   background-size: cover;
-  background-position: center;
+  /* ensure the subject stays centred in the hero */
+  background-position: center center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,7 +130,8 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
+  /* Darker overlay to enhance contrast on hero images */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.85) 100%);
 }
 
 .hero-content {
@@ -405,9 +413,11 @@ img {
   left: 50%;
   width: 200px;
   height: auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  transform-origin: center center;
+  transform-style: preserve-3d;
   cursor: move;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
   border-radius: 4px;
 }
 .room-close {
@@ -436,6 +446,39 @@ img {
   padding: 0.4rem 0.8rem;
   border-radius: 3px;
   z-index: 2;
+}
+
+/* Controls container for room view (e.g. rotation slider) */
+.room-controls {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  z-index: 2;
+}
+.room-controls label {
+  margin-right: 0.5rem;
+}
+.room-controls input[type="range"] {
+  width: 150px;
+}
+
+/* Glare overlay for acrylic effect; opacity is controlled via CSS variable */
+.room-print::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, var(--glare-opacity, 0)) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 /* Cart table styles */

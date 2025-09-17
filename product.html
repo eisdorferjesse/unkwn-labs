@@ -106,7 +106,12 @@
         <!-- Close button -->
         <button id="close-room-view" class="room-close" aria-label="Close room view">×</button>
         <!-- Instruction text -->
-        <div class="room-instructions">Drag to position the print; scroll to zoom in and out</div>
+        <div class="room-instructions">Drag to position the print; scroll to zoom; use the slider to rotate</div>
+        <!-- Controls for rotating the print -->
+        <div class="room-controls">
+          <label for="rotate-range">Rotate:</label>
+          <input type="range" id="rotate-range" min="-30" max="30" value="0" step="1" />
+        </div>
         <!-- Background room image -->
         <img src="assets/images/room.png" alt="Room background" class="room-background" />
         <!-- Print preview image that will be made draggable -->
@@ -163,6 +168,7 @@
         const roomPrint = document.getElementById('room-print');
         const closeBtn = document.getElementById('close-room-view');
         const productImage = document.querySelector('.product-detail-image');
+        const rotateRange = document.getElementById('rotate-range');
         if (viewBtn && overlay && roomPrint && closeBtn && productImage) {
           // Helper to parse selected size string into width and height in inches
           function parseSize(sizeStr) {
@@ -177,6 +183,17 @@
             // 1 inch ≈ 10 pixels for a more realistic scaling of prints in the room view
             return inches * 10;
           }
+          // Helper to update transform and glare based on current scale and rotation
+          function applyTransform() {
+            const scale = parseFloat(roomPrint.dataset.scale || '1');
+            const rotate = parseFloat(roomPrint.dataset.rotate || '0');
+            roomPrint.style.transform =
+              'translate(-50%, -50%) scale(' + scale + ') rotateY(' + rotate + 'deg)';
+            // Update glare opacity proportional to rotation angle (max 0.4)
+            const opacity = Math.min(Math.abs(rotate) / 30 * 0.4, 0.4);
+            roomPrint.style.setProperty('--glare-opacity', opacity.toString());
+          }
+
           viewBtn.addEventListener('click', () => {
             // Set the print image source to the displayed product image
             roomPrint.src = productImage.src;
@@ -195,9 +212,10 @@
               roomPrint.style.width = '200px';
               roomPrint.style.height = '200px';
             }
-            // Reset any previous transform and zoom factor
-            roomPrint.style.transform = 'scale(1)';
+            // Reset any previous transform and zoom/rotation factors
             roomPrint.dataset.scale = '1';
+            roomPrint.dataset.rotate = '0';
+            applyTransform();
             // Center the print in the room
             const containerRect = overlay
               .querySelector('.room-container')
@@ -254,9 +272,17 @@
             // Constrain scale between 0.5 and 3 to prevent extreme zoom
             if (scale < 0.5) scale = 0.5;
             if (scale > 3) scale = 3;
-            roomPrint.style.transform = 'scale(' + scale + ')';
             roomPrint.dataset.scale = scale.toString();
+            applyTransform();
           });
+
+          // Rotation functionality using range slider
+          if (rotateRange) {
+            rotateRange.addEventListener('input', () => {
+              roomPrint.dataset.rotate = rotateRange.value;
+              applyTransform();
+            });
+          }
         }
       });
     </script>
