@@ -82,6 +82,80 @@ function changeQuantity(index, newQty) {
   }
 }
 
+// Compute and display the resolution quality for a selected product and size.
+// This function assumes the existence of a `.quality-indicator` element in
+// the product detail page, which contains child elements representing
+// individual dots and a label for descriptive text. It calculates the
+// effective pixels-per-inch (PPI) of the print based on the product's
+// stored pixel resolution and the chosen print size (in inches). The
+// quality is expressed as a rating from 1–5 and descriptive text.
+function initQualityIndicator(product) {
+  const indicator = document.querySelector('.quality-indicator');
+  if (!indicator || !product || !Array.isArray(product.resolution)) {
+    return;
+  }
+  // Show the indicator now that the product details are present
+  indicator.style.display = 'flex';
+  const dots = indicator.querySelectorAll('.quality-dot');
+  const labelEl = indicator.querySelector('.quality-label');
+  // Helper to compute PPI and return rating + label
+  function computeQuality(sizeStr) {
+    if (!sizeStr || !sizeStr.includes('×')) {
+      return { rating: 0, label: '' };
+    }
+    const parts = sizeStr.split('×');
+    const widthIn = parseFloat(parts[0]);
+    const heightIn = parseFloat(parts[1]);
+    const [pxW, pxH] = product.resolution;
+    const ppiW = pxW / widthIn;
+    const ppiH = pxH / heightIn;
+    const ppi = Math.min(ppiW, ppiH);
+    let rating;
+    let label;
+    if (ppi >= 200) {
+      rating = 5;
+      label = 'Excellent';
+    } else if (ppi >= 150) {
+      rating = 4;
+      label = 'Very good';
+    } else if (ppi >= 100) {
+      rating = 3;
+      label = 'Good';
+    } else if (ppi >= 75) {
+      rating = 2;
+      label = 'Fair';
+    } else {
+      rating = 1;
+      label = 'Poor';
+    }
+    return { rating, label };
+  }
+  // Update the DOM based on current selection
+  function update() {
+    const sizeSelect = document.getElementById('size-select');
+    if (!sizeSelect) return;
+    const selected = sizeSelect.value;
+    const { rating, label } = computeQuality(selected);
+    dots.forEach((dot, index) => {
+      if (index < rating) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+    if (labelEl) {
+      labelEl.textContent = label;
+    }
+  }
+  // Bind change event
+  const sizeSelectEl = document.getElementById('size-select');
+  if (sizeSelectEl) {
+    sizeSelectEl.addEventListener('change', update);
+  }
+  // Run initial calculation
+  update();
+}
+
 // Helper to parse query parameters from the current URL.
 function getQueryParam(name) {
   const params = new URLSearchParams(window.location.search);
@@ -121,6 +195,8 @@ function renderProductDetail() {
       sizeSelect.appendChild(option);
     });
   }
+  // Initialise the resolution quality indicator for this product
+  initQualityIndicator(product);
   // Add event listener for add to cart button
   const addButton = container.querySelector('.add-to-cart-btn');
   if (addButton) {

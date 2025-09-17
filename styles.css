@@ -481,6 +481,40 @@ img {
   border-radius: inherit;
 }
 
+/* --------------------------------------------------------------------------
+ * Resolution quality indicator
+ *
+ * A small widget used on the product detail page to communicate how well
+ * the selected print size matches the original image resolution. Five
+ * circular dots are displayed and coloured progressively to reflect
+ * quality levels from poor (one dot) to excellent (five dots). A
+ * descriptive label accompanies the dots.
+ */
+.quality-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.quality-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.quality-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: #555555;
+}
+.quality-dot.active {
+  background-color: var(--accent-color);
+}
+.quality-label {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+}
+
 /* Cart table styles */
 .cart-table {
   width: 100%;

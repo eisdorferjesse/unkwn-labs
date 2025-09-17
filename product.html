@@ -93,6 +93,17 @@
           <p class="product-detail-description"></p>
           <label for="size-select">Select Size:</label>
           <select id="size-select" class="size-select"></select>
+          <!-- Resolution quality indicator; dots and label will be updated via JavaScript -->
+          <div class="quality-indicator" style="display:none;">
+            <div class="quality-dots">
+              <span class="quality-dot"></span>
+              <span class="quality-dot"></span>
+              <span class="quality-dot"></span>
+              <span class="quality-dot"></span>
+              <span class="quality-dot"></span>
+            </div>
+            <span class="quality-label">Quality</span>
+          </div>
           <button class="btn btn-primary add-to-cart-btn">Add to Cart</button>
         <!-- Button to open room view overlay -->
         <button id="view-room-btn" class="btn btn-secondary" style="margin-top: 0.5rem;">View in Room</button>
@@ -106,11 +117,12 @@
         <!-- Close button -->
         <button id="close-room-view" class="room-close" aria-label="Close room view">×</button>
         <!-- Instruction text -->
-        <div class="room-instructions">Drag to position the print; scroll to zoom; use the slider to rotate</div>
+        <div class="room-instructions">Drag to position; scroll to zoom; shift+drag horizontally or use the slider to rotate</div>
         <!-- Controls for rotating the print -->
         <div class="room-controls">
           <label for="rotate-range">Rotate:</label>
-          <input type="range" id="rotate-range" min="-30" max="30" value="0" step="1" />
+          <!-- Range now covers a full 360° sweep (-180° to +180°) for realistic perspective -->
+          <input type="range" id="rotate-range" min="-180" max="180" value="0" step="1" />
         </div>
         <!-- Background room image -->
         <img src="assets/images/room.png" alt="Room background" class="room-background" />
@@ -229,36 +241,61 @@
           closeBtn.addEventListener('click', () => {
             overlay.style.display = 'none';
           });
-          // Dragging logic
+          // Dragging and rotation logic
           let dragging = false;
+          let rotating = false;
           let offsetX = 0;
           let offsetY = 0;
+          let rotateStartX = 0;
+          let rotateStartDeg = 0;
           roomPrint.addEventListener('mousedown', (e) => {
-            dragging = true;
-            const rect = roomPrint.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
+            // If the Shift key is held down, start rotating instead of dragging
+            if (e.shiftKey) {
+              e.preventDefault();
+              rotating = true;
+              rotateStartX = e.clientX;
+              rotateStartDeg = parseFloat(roomPrint.dataset.rotate || '0');
+            } else {
+              dragging = true;
+              const rect = roomPrint.getBoundingClientRect();
+              offsetX = e.clientX - rect.left;
+              offsetY = e.clientY - rect.top;
+            }
           });
           document.addEventListener('mousemove', (e) => {
-            if (!dragging) return;
-            const containerRect = overlay
-              .querySelector('.room-container')
-              .getBoundingClientRect();
-            // calculate new position relative to container
-            let left = e.clientX - containerRect.left - offsetX;
-            let top = e.clientY - containerRect.top - offsetY;
-            // clamp within container bounds to keep print fully visible
-            const maxLeft = containerRect.width - roomPrint.offsetWidth;
-            const maxTop = containerRect.height - roomPrint.offsetHeight;
-            if (left < 0) left = 0;
-            if (top < 0) top = 0;
-            if (left > maxLeft) left = maxLeft;
-            if (top > maxTop) top = maxTop;
-            roomPrint.style.left = left + 'px';
-            roomPrint.style.top = top + 'px';
+            if (rotating) {
+              // Calculate horizontal movement as basis for rotation
+              const deltaX = e.clientX - rotateStartX;
+              let newRotation = rotateStartDeg + deltaX * 0.5;
+              // Wrap rotation within [-180, 180]
+              if (newRotation > 180) newRotation = 180;
+              if (newRotation < -180) newRotation = -180;
+              roomPrint.dataset.rotate = newRotation.toString();
+              if (rotateRange) {
+                rotateRange.value = newRotation;
+              }
+              applyTransform();
+            } else if (dragging) {
+              const containerRect = overlay
+                .querySelector('.room-container')
+                .getBoundingClientRect();
+              // calculate new position relative to container
+              let left = e.clientX - containerRect.left - offsetX;
+              let top = e.clientY - containerRect.top - offsetY;
+              // clamp within container bounds to keep print fully visible
+              const maxLeft = containerRect.width - roomPrint.offsetWidth;
+              const maxTop = containerRect.height - roomPrint.offsetHeight;
+              if (left < 0) left = 0;
+              if (top < 0) top = 0;
+              if (left > maxLeft) left = maxLeft;
+              if (top > maxTop) top = maxTop;
+              roomPrint.style.left = left + 'px';
+              roomPrint.style.top = top + 'px';
+            }
           });
           document.addEventListener('mouseup', () => {
             dragging = false;
+            rotating = false;
           });
           // Zoom functionality using mouse wheel
           roomPrint.addEventListener('wheel', (e) => {
